@@ -1,0 +1,72 @@
+<!-- This is the component's template! :D -->
+<div class="container" style="margin-top: 70px;">
+
+    <div class="row">
+  
+      <div class="col-sm-8 offset-sm-2">
+  
+        <div>
+
+            <h1> Hello </h1> 
+            <p></p>
+            <p>Sanitization is the inspection of an untrusted value, turning it into a value that's safe to insert into the DOM</p>
+            <p>It depends on context as well: a value that's harmless in CSS is potentially dangerous in a URL</p>
+            <p>Angular defines the following security contexts:</p>
+
+            <ul>
+                <li>HTML - used when interpreting a value as HTML, for example: </li>
+                <li>Style - used when binding CSS into the style property</li>
+                <li>URL - used for URL properties, such as &lt;a href &gt;</li>
+                <li>Resource URL - a URL that will be loaded and executed as code, for example &lt;script src&gt; which is impossible for to sanitize because they contain arbitrary code.</li>
+            </ul>
+            
+        </div>
+        <div>
+            <h4>HTML Sanitization Example</h4>
+            <h5>Binding innerHTML</h5>
+            <p>Bound value:</p>
+            <p class="e2e-inner-html-interpolated">{{htmlSnippet}}</p> <!-- Data binding (interpolation) -->
+            <p>Result of binding to innerHTML:</p>
+            <p class="e2e-inner-html-bound" [innerHTML]="htmlSnippet"></p>
+            <p>Note that Angular automatically recongnized the code as being unsafe and removed the script tag but kept the safe content such as the b element</p>
+            <p> Result of direct placement in template: <script>alert("Hi there!")</script> (Nothing)  </p> <!-- Angular does not allow you to just insert scripts -->
+        </div>
+
+        <div>
+            <h4>sanitize()</h4>
+            <p>This methods sanitizes a value for use in the given SecurityContext. If the given value is trusted for the context, it will unwrap the contained safe value and use it directly, 
+                otherwise it the value will be sanitized to be safe in the context. Note that the implementation is responsible for making sure that the value can definitely be safely used in the given context. 
+            </p>
+
+        </div>
+        <div>
+            <h4>Using Sanitization</h4>
+            <h5>An untrusted URL:</h5>
+            <p><a class="e2e-dangerous-url" [href]="dangerousUrl">Click me</a></p>
+            <p>Note - will log this sanitization to the console</p>
+            <h5>A trusted URL:</h5>
+            <p><a class="e2e-trusted-url" [href]="trustedUrl">Click me</a></p>
+        </div>
+        <div>
+            <h4>Additional Angular Security</h4>
+            <ul>
+                <li>XSFR Protection (Cross-Site Request Forgery) - Sending a cookie to the client for use in headers. Angular has built in the client side of the transfer </li>
+                <li>Cross-site script inclusion - Strips out the ")]}',\n" from all responses </li>
+                <li>And more!</li>
+            </ul>
+            <h4>Summary</h4>
+            Best Practices:
+            <ul>
+                <li>Use Angular templates where possible</li>
+                <li>When this is impossible, use the built-in Angular sanitization functions such as sanitize() and bypassSecurityTrust()</li>
+                <li>Never inject template code into an Angular application. (Allows opportunities for XSS) </li>
+            </ul>
+        </div>
+        <p>Reference: <a ng-href="sanitizer.bypassSecurityTrustUrl(this.dangerousUrl)">https://angular.io/guide/security</a></p>
+       </div>
+    </div>
+</div>
+<!-- <p class="e2e-inner-html-interpolated">{{htmlSnippet}}</p>
+<p>Result of binding to innerHTML:</p>
+<p class="e2e-inner-html-bound" [innerHTML]="htmlSnippet"></p> -->
+
